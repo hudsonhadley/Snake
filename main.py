@@ -1,5 +1,3 @@
-import random
-
 import pygame
 
 from settings import WINDOW_SIZE, BACKGROUND_COLOR, FRAME_RATE, UPDATE_INTERVAL, FONT_SIZE, TEXT_COLOR
