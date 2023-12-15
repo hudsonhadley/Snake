@@ -11,9 +11,9 @@ to construct an apple and define its position.
 [body_part.py]() - Holds the BodyPart
 class that is used to construct the snake.
 
-[high_score.py]() - Holds the current
-high score (this can be reset whenever by making
-high_score = 0).
+[high_score.txt]() - Holds the current
+high score (this can be reset whenever by
+deleting the file).
 
 [main.py]() - Where the game actually happens. 
 Variables are either drawn from settings,

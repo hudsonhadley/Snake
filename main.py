@@ -5,8 +5,6 @@ from settings import WINDOW_SIZE, BACKGROUND_COLOR, FRAME_RATE, UPDATE_INTERVAL,
 from snake import Snake
 from apple import Apple
 
-from high_score import high_score
-
 # Initialize pygame and the screen and make a clock, so we can control the framerate
 pygame.init()
 screen = pygame.display.set_mode(WINDOW_SIZE)
@@ -20,17 +18,26 @@ pygame.time.set_timer(update_event_id, UPDATE_INTERVAL)
 snake = Snake()
 
 # Our apple will never actually change. It will always be the same object
-# but once they hit it, it will just register that it hit and movel locations
+# but once they hit it, it will just register that it hit and move locations
 apple = pygame.sprite.GroupSingle(Apple())
 apple.sprites()[0].place()
+
+# Get the high score
+try:
+    high_score_file = open("high_score.txt", "r")
+    high_score = int(high_score_file.read())
+    high_score_file.close()
+except FileNotFoundError:
+    high_score = 0
+
+
+is_high_score = False
 
 # If the screen should be up or not
 running = True
 
 # If we are playing or not (this will be false once the score is displayed)
 playing = True
-
-
 
 # Main game loop
 while running:
@@ -92,11 +99,10 @@ while running:
 
     # And if we are not playing we need to display a score
     if not playing:
-        high_score_file = open("high_score.py", "w")
         font = pygame.font.SysFont("feesanbolt.ttf", FONT_SIZE)
 
         # If we have beaten the high score, display a happy message!
-        if snake.length() > high_score:
+        if snake.length() >= high_score:
             high_score = snake.length()
 
             high_score_text = font.render("New High Score!", True, TEXT_COLOR)
@@ -104,9 +110,6 @@ while running:
             high_score_text_rect.center = (WINDOW_SIZE.width // 2, WINDOW_SIZE.height // 4)
 
             screen.blit(high_score_text, high_score_text_rect)
-
-        # Update high_score (if snake.length < high_score, the file won't change)
-        high_score_file.write(f"high_score = {high_score}")
 
         # Display the score
         score_text = font.render(str(snake.length()), True, TEXT_COLOR)
@@ -131,4 +134,9 @@ while running:
     # We want a slow framerate so we can get the slow and discrete snake moving in jumps
     clock.tick(FRAME_RATE)
 
+# Update high_score (if snake.length < high_score, the file won't change)
+
+high_score_file = open("high_score.txt", "w")
+high_score_file.write(str(high_score))
+high_score_file.close()
 pygame.quit()
