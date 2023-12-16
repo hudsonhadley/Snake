@@ -31,8 +31,6 @@ except FileNotFoundError:
     high_score = 0
 
 
-is_high_score = False
-
 # If the screen should be up or not
 running = True
 
@@ -42,7 +40,9 @@ playing = True
 # Main game loop
 while running:
     # Check if the user wants to quit
-    for event in pygame.event.get():
+    key_presses = pygame.event.get()
+
+    for event in key_presses:
         # Pressing the close button the window shuts it down
         if event.type == pygame.QUIT:
             running = False
